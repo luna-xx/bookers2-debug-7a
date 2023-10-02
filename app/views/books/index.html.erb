@@ -13,5 +13,7 @@
       <h2>Books</h2>
       <%= render 'index', books: @books%>
     </div>
+
+    <p><%= link_to "#{book.post_comments.count} コメント", book_path(book.id) %></p>
   </div>
 </div>
