@@ -1,12 +1,4 @@
 <%= form_with model: book, local:true do |f| %>
-  <% if @book.errors.any? %>
-    <%= @book.errors.count %>errors prohibited this book from being saved:
-    <ul>
-      <% @book.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-    </ul>
-  <% end %>
 
   <div class="form-group">
     <%= f.label :title %>
@@ -19,4 +11,5 @@
   <div class="form-group">
     <%= f.submit class: 'btn btn-success' %>
   </div>
+
 <% end %>
