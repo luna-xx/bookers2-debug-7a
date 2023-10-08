@@ -18,10 +18,9 @@ class BooksController < ApplicationController
 
     # いいねを持っているユーザーがいる本一覧を取得
     # sort_byにていいね数順に並び替え、reverseにて昇順に切替
-    @books = Book.includes(:favorited_users).
-      sort {|a,b|
-        a.favorited_users.includes(:favorites).where(created_at: from...to).size <=>
-        b.favorited_users.includes(:favorites).where(created_at: from...to).size
+    @books = Book.all.sort {|a,b|
+        a.favorites.where(created_at: from...to).size <=>
+        b.favorites.where(created_at: from...to).size
        }.reverse
 
       # sort_by {|x|
