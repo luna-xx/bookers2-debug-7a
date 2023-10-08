@@ -8,7 +8,29 @@ class BooksController < ApplicationController
 
   def index
     @books = Book.all
-    @book = Book.new
+    # @book = Book.new
+
+    # Qiitaからコピペ
+    # 変数.to定義(現在日時23:59)
+    to = Time.current.at_end_of_day
+    # 変数.from定義(7日後)
+    from = (to - 6.day).at_beginning_of_day
+
+    # いいねを持っているユーザーがいる本一覧を取得
+    # sort_byにていいね数順に並び替え、reverseにて昇順に切替
+    @books = Book.includes(:favorited_users).
+      sort {|a,b|
+        a.favorited_users.includes(:favorites).where(created_at: from...to).size <=>
+        b.favorited_users.includes(:favorites).where(created_at: from...to).size
+       }.reverse
+
+      # sort_by {|x|
+        # x.favorited_users.includes(:favorites).where(created_at: from...to).size
+      # }.reverse
+      # ここまで
+
+      # ブックインスタンスを生成
+      @book = Book.new
   end
 
   def create
@@ -38,7 +60,7 @@ class BooksController < ApplicationController
     redirect_to books_path
   end
 
- 
+
 
   def book_params
     params.require(:book).permit(:title, :body)
